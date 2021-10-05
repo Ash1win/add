@@ -1,61 +1,126 @@
 import React, { useState } from "react";
+import adder from "./adderModel";
 
 export default function mainContainer() {
-  const [adderState, setAdderState] = useState({
+  const [adderState, setAdderState] = useState<adder>({
+    ans: 0,
+    showAns: false,
     no1: 0,
     no2: 0,
-    no1Size: 0,
-    no2Size: 0,
-    ans: 0,
+    no1Range: {
+      max: 0,
+      min: 0,
+    },
+    no2Range: {
+      max: 0,
+      min: 0,
+    },
   });
 
-  const handleNo1SizeChange = (e: any) => {
-    setAdderState({ ...adderState, no1Size: e.target.value });
-    console.log(e.target.value);
-  };
-
-  const handleNo2SizeChange = (e: any) => {
-    setAdderState({ ...adderState, no2Size: e.target.value });
-    console.log(e.target.value);
-  };
-
-  const generateNumbers = ({ no1Size, no2Size }: typeof adderState) => {
-    let no1String = "";
-    let no2String = "";
-    for (let i = 1; i <= adderState.no1Size; i++) {
-      no1String += Math.floor(Math.random() * 10);
-    }
-    for (let i = 1; i <= adderState.no2Size; i++) {
-      no2String += Math.floor(Math.random() * 10);
-    }
+  // function handleNo1(e: any) {}
+  // function handleNo2(e: any) {}
+  function handleNo1RangeMin(e: any) {
     setAdderState({
       ...adderState,
-      no1: parseInt(no1String),
-      no2: parseInt(no2String),
-      ans: parseInt(no1String) * parseInt(no2String),
+      no1Range: {
+        min: e.target.value,
+        max: adderState.no1Range.max,
+      },
     });
-    console.log("no1 = " + no1String);
-    console.log("no2 = " + no2String);
-    console.log("ans = " + parseInt(no1String) * parseInt(no2String));
-  };
+  }
+  function handleNo1RangeMax(e: any) {
+    setAdderState({
+      ...adderState,
+      no1Range: {
+        min: adderState.no1Range.min,
+        max: e.target.value,
+      },
+    });
+  }
+  function handleNo2RangeMin(e: any) {
+    setAdderState({
+      ...adderState,
+      no2Range: {
+        min: e.target.value,
+        max: adderState.no2Range.max,
+      },
+    });
+  }
+  function handleNo2RangeMax(e: any) {
+    setAdderState({
+      ...adderState,
+      no2Range: {
+        min: adderState.no2Range.min,
+        max: e.target.value,
+      },
+    });
+  }
+  function generateRandomNumbers({ no1Range, no2Range }: adder) {
+    console.log(no1Range.max + " " + no1Range.min);
+    let newNo1 = getRandomInt(no1Range.min, no1Range.max);
+    console.log(newNo1);
+    let newNo2 = getRandomInt(no2Range.min, no2Range.max);
+    let newAns = newNo1 * newNo2;
+    setAdderState({
+      ...adderState,
+      no1: newNo1,
+      no2: newNo2,
+      ans: newAns,
+      showAns: false,
+    });
+  }
+
+  function getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  }
+
+  function handleShowAns() {
+    setAdderState({ ...adderState, showAns: true });
+  }
 
   return (
     <div className="cont-main">
+      <label htmlFor="no1min">No 1 min range</label>
       <input
-        type="range"
-        min="1"
-        max="5"
-        value={adderState.no1Size}
-        onChange={handleNo1SizeChange}
+        type="number"
+        name="no1min"
+        value={adderState.no1Range.min}
+        onChange={handleNo1RangeMin}
       />
+      <label htmlFor="no1max">No 1 max range</label>
       <input
-        type="range"
-        min="1"
-        max="5"
-        value={adderState.no2Size}
-        onChange={handleNo2SizeChange}
+        type="number"
+        name="no1max"
+        value={adderState.no1Range.max}
+        onChange={handleNo1RangeMax}
       />
-      <button onClick={() => generateNumbers(adderState)}>Generate</button>
+      {/* ================================================================================ */}
+      <br />
+      <label htmlFor="no2min">No 2 min range</label>
+      <input
+        type="number"
+        name="no2min"
+        value={adderState.no2Range.min}
+        onChange={handleNo2RangeMin}
+      />
+      <label htmlFor="no2max">No 2 max range</label>
+      <input
+        type="number"
+        name="no2max"
+        value={adderState.no2Range.max}
+        onChange={handleNo2RangeMax}
+      />
+      <br />
+      <button onClick={() => generateRandomNumbers(adderState)}>
+        Generate
+      </button>
+      <button onClick={handleShowAns}>show ans</button>
+      {adderState.no1 > 0 && <h3>no1 {adderState.no1}</h3>}
+      {adderState.no2 > 0 && <h3>no2 {adderState.no2}</h3>}
+      {adderState.ans > 0 && <h3>===========</h3>}
+      {adderState.showAns && <h3>ans {adderState.ans}</h3>}
     </div>
   );
 }
