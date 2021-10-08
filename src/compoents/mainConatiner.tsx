@@ -8,14 +8,16 @@ export default function mainContainer() {
     no1: 0,
     no2: 0,
     no1Range: {
-      max: 0,
-      min: 0,
+      max: 11,
+      min: 20,
     },
     no2Range: {
-      max: 0,
-      min: 0,
+      max: 2,
+      min: 9,
     },
   });
+
+  const [isMenuHidden, setIsMenuHidden] = useState(true);
 
   // function handleNo1(e: any) {}
   // function handleNo2(e: any) {}
@@ -80,47 +82,72 @@ export default function mainContainer() {
     setAdderState({ ...adderState, showAns: true });
   }
 
+  function toggleHideMenu() {
+    if (isMenuHidden) {
+      setIsMenuHidden(false);
+    } else {
+      setIsMenuHidden(true);
+    }
+  }
+
   return (
     <div className="cont-main">
-      <label htmlFor="no1min">No 1 min range</label>
-      <input
-        type="number"
-        name="no1min"
-        value={adderState.no1Range.min}
-        onChange={handleNo1RangeMin}
-      />
-      <label htmlFor="no1max">No 1 max range</label>
-      <input
-        type="number"
-        name="no1max"
-        value={adderState.no1Range.max}
-        onChange={handleNo1RangeMax}
-      />
-      {/* ================================================================================ */}
-      <br />
-      <label htmlFor="no2min">No 2 min range</label>
-      <input
-        type="number"
-        name="no2min"
-        value={adderState.no2Range.min}
-        onChange={handleNo2RangeMin}
-      />
-      <label htmlFor="no2max">No 2 max range</label>
-      <input
-        type="number"
-        name="no2max"
-        value={adderState.no2Range.max}
-        onChange={handleNo2RangeMax}
-      />
-      <br />
-      <button onClick={() => generateRandomNumbers(adderState)}>
-        Generate
+      <div className={`range-container ${isMenuHidden ? "hide" : ""}`}>
+        <div className="no-range">
+          <label htmlFor="no1min">No 1 range</label>
+          <input
+            type="number"
+            name="no1min"
+            value={adderState.no1Range.min}
+            onChange={handleNo1RangeMin}
+          />
+          <input
+            type="number"
+            name="no1max"
+            value={adderState.no1Range.max}
+            onChange={handleNo1RangeMax}
+          />
+        </div>
+        <div className="no-range">
+          <label htmlFor="no2min">No 2 range</label>
+          <input
+            type="number"
+            name="no2min"
+            value={adderState.no2Range.min}
+            onChange={handleNo2RangeMin}
+          />
+          <input
+            type="number"
+            name="no2max"
+            value={adderState.no2Range.max}
+            onChange={handleNo2RangeMax}
+          />
+        </div>
+      </div>
+      <button className="menu-btn" onClick={toggleHideMenu}>
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
-      <button onClick={handleShowAns}>show ans</button>
-      {adderState.no1 > 0 && <h3>no1 {adderState.no1}</h3>}
-      {adderState.no2 > 0 && <h3>no2 {adderState.no2}</h3>}
-      {adderState.ans > 0 && <h3>===========</h3>}
-      {adderState.showAns && <h3>ans {adderState.ans}</h3>}
+
+      <div className="add-container">
+        <div>
+          <div className="multi">{adderState.no1 > 0 && <h3>X</h3>}</div>
+          <div>
+            {adderState.no1 > 0 && <h3> {adderState.no1}</h3>}
+            {adderState.no2 > 0 && <h3> {adderState.no2}</h3>}
+          </div>
+        </div>
+        {adderState.ans > 0 && <hr />}
+        {adderState.showAns && <h3> {adderState.ans}</h3>}
+      </div>
+
+      <div className="functional-btn-group">
+        <button onClick={() => generateRandomNumbers(adderState)}>
+          Generate
+        </button>
+        <button onClick={handleShowAns}>show ans</button>
+      </div>
     </div>
   );
 }

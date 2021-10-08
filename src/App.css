@@ -1,0 +1,88 @@
+body {
+  background: rgb(29, 29, 29);
+  color: white;
+}
+
+.range-container {
+  border: 4px soldi white;
+  height: 100%;
+  transition: height 2s;
+}
+
+.hide {
+  display: none;
+  height: 0px;
+}
+
+.no-range {
+  background: grey;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.no-range > input {
+  border-radius: 10px;
+  border: none;
+  padding-left: 10px;
+}
+
+.menu-btn {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0);
+  border: 2px solid white;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+.menu-btn > span {
+  width: 20px;
+  border: 2px solid white;
+  margin: 1px;
+}
+
+.functional-btn-group {
+  position: fixed;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.functional-btn-group > button {
+  width: 150px;
+  padding: 6px;
+  margin: 2px;
+  font-size: large;
+  background: none;
+  color: white;
+  border: 4px solid white;
+  border-radius: 20px;
+}
+
+.add-container {
+  font-size: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-container > hr {
+  width: 250px;
+}
+
+.add-container > div {
+  display: flex;
+}
+
+.add-container > div .multi {
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
